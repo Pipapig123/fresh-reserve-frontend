@@ -1,73 +1,164 @@
-# React + TypeScript + Vite
-
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## **用户端（移动端优先）**
+- 登录注册页
+    - 手机号验证码登录
+    - 密码登录（可选）
+    - 新用户注册入口
+    - 隐私政策勾选框
+- 首页
+    - 顶部导航栏
+        - 搜索框（商品搜索）
+        - 购物车图标（角标显示数量）
+    - 分类横向滚动栏
+        - 果蔬 / 肉类 / 水产 / 粮油 / 熟食
+    - 推荐区
+        - 活动轮播图
+        - 热销商品榜（3-5个商品卡片）
+    - 预约提示卡片
+    - 商品列表（网格布局，2列）
+    - 底部Tab栏
+        - 首页 / 分类 / 订单 / 我的
+- 商品分类页
+    - 分类筛选侧边栏（多级分类）
+    - 筛选条件区
+        - 价格区间 / 库存状态 / 配送时效
+    - 排序选项（销量 / 价格 / 新品）
+    - 商品列表（同上）
+- 商品详情页
+    - 商品图片轮播区
+    - 收藏图标
+    - 商品基础信息
+        - 名称 / 产地 / 价格 / 原价 / 库存
+    - 规格选择按钮组
+    - 数量加减控件
+    - 操作按钮（加入购物车 / 立即预约）
+    - 折叠面板（商品详情 / 配送说明）
+- 购物车页
+    - 全选按钮
+    - 商品列表项
+        - 图片 / 名称 / 规格 / 数量 / 单价 / 小计
+        - 删除按钮
+    - 合计金额区
+    - 结算按钮（跳转预约页）
+- 预约配送页
+    - 商品清单（不可编辑）
+    - 配送方式选项卡
+        - 配送到家（地址选择 / 新增地址）
+        - 自提点自提（自提点列表选择）
+    - 预约时段选择
+        - 日历选择（默认今日）
+        - 时段按钮组（可预约时段高亮）
+    - 备注输入框
+    - 支付方式选择（在线支付 / 货到付款）
+    - 实付金额展示
+    - 提交订单按钮
+- 订单成功页
+    - 成功提示图标 / 文案
+    - 订单号展示
+    - 预计配送时间
+    - 操作按钮（查看订单 / 返回首页）
+- 订单管理页
+    - 订单状态筛选选项卡
+        - 全部 / 待接单 / 待配送 / 已完成 / 已取消
+    - 订单列表卡片
+        - 订单号 / 下单时间
+        - 商品缩略图 / 名称 / 数量
+        - 订单状态标签
+        - 操作按钮（取消订单 / 联系商户 / 评价 / 售后）
+    - 空订单状态提示（图片 + 去逛逛按钮）
+- 订单详情页
+    - 订单基础信息（订单号 / 时间 / 金额 / 状态）
+    - 配送信息（地址 / 联系人 / 电话 / 时段）
+    - 商品清单详情
+    - 物流状态跟踪（简化版：备货中 / 配送中）
+    - 售后申请入口（仅已收货订单）
+- 评价页
+    - 星级评分控件（1-5星）
+    - 评价内容输入框
+    - 图片上传（可选，最多3张）
+    - 提交评价按钮
+- 售后申请页
+    - 售后类型选择（退货 / 换货 / 退款）
+    - 问题描述输入框
+    - 问题图片上传
+    - 提交申请按钮
+- 个人中心页
+    - 个人信息区（头像 / 昵称 / 手机号）
+    - 编辑资料按钮
+    - 功能入口网格（2列）
+        - 收货地址 / 我的收藏 / 我的评价 / 售后中心 / 设置
+    - 常用操作按钮（我的订单 / 联系客服）
+    - 退出登录按钮
+- 收货地址管理页
+    - 地址列表项（默认地址标记）
+    - 新增地址按钮
+    - 编辑 / 删除地址操作按钮
+- 地址编辑/新增页
+    - 收货人 / 手机号 / 省市区 / 详细地址输入框
+    - 默认地址勾选框
+    - 保存按钮
+- 404页
+    - 错误提示文案
+    - 返回首页按钮
+## **管理端（PC端）**
+- 登录页
+    - 左侧：系统logo + 插画 + 副标题
+    - 右侧：角色选择（商户 / 管理员）
+    - 账号 / 密码输入框
+    - 登录按钮
+    - 找回密码入口
+- 首页（仪表盘）
+    - 数据统计卡片
+        - 今日订单量 / 今日销售额 / 待处理订单数 / 商户数
+    - 订单趋势折线图（近7天）
+    - 销量TOP5商品柱状图
+    - 待处理事项提醒（待审核商户 / 待处理售后）
+- 商户管理页（仅管理员可见）
+    - 筛选区
+        - 商户名称搜索 / 审核状态筛选 / 时间筛选
+    - 商户列表表格
+        - 商户ID / 名称 / 联系人 / 手机号 / 资质状态 / 操作
+    - 操作按钮（审核 / 禁用 / 查看详情）
+    - 审核弹窗（资质查看 / 通过 / 驳回 + 理由）
+- 商品管理页
+    - 顶部操作栏
+        - 新增商品按钮 / 批量上下架按钮
+    - 筛选区
+        - 商品名称搜索 / 分类筛选 / 状态筛选 / 商户筛选（仅管理员）
+    - 商品列表表格
+        - 商品ID / 图片 / 名称 / 分类 / 价格 / 库存 / 状态 / 操作
+    - 操作按钮（编辑 / 上下架 / 删除）
+    - 新增/编辑商品弹窗
+        - 基础信息（名称 / 分类 / 价格 / 库存）
+        - 图片上传 / 描述输入 / 状态选择
+- 订单管理页
+    - 筛选区
+        - 订单号搜索 / 状态筛选 / 时间筛选 / 商户筛选（仅管理员）
+    - 订单列表表格
+        - 订单ID / 用户信息 / 商品信息 / 配送方式 / 预约时段 / 金额 / 状态 / 操作
+    - 操作按钮（查看详情 / 接单 / 拒单 / 标记配送）
+    - 订单详情弹窗（全量信息展示 / 售后记录查看）
+- 售后管理页
+    - 筛选区
+        - 订单号搜索 / 售后状态筛选 / 时间筛选
+    - 售后列表表格
+        - 售后ID / 订单号 / 用户 / 售后类型 / 申请时间 / 状态 / 操作
+    - 操作按钮（查看详情 / 处理 / 驳回）
+    - 售后处理弹窗（查看证据 / 同意 / 驳回 + 理由）
+- 数据统计页
+    - 时间筛选器（今日 / 本周 / 本月 / 自定义）
+    - 图表区
+        - 订单量趋势图 / 商品销量排行图 / 订单状态占比饼图
+    - 数据明细表格
+    - 导出报表按钮（Excel格式）
+- 系统配置页（仅管理员可见）
+    - 配送规则配置（配送费标准 / 配送时效设置）
+    - 自提点管理（新增 / 编辑 / 删除自提点）
+    - 售后规则配置（售后时效 / 退款条件）
+    - 公告管理（新增 / 编辑 / 删除系统公告）
+- 个人信息页
+    - 基础信息展示（账号 / 角色 / 手机号）
+    - 密码修改表单
+    - 退出登录按钮
+- 403页（无权限）
+    - 无权限提示文案
+    - 返回首页按钮
