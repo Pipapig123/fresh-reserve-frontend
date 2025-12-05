@@ -10,5 +10,14 @@ export default defineConfig({
       "@": resolve(__dirname, 'src'),
       "hooks": resolve(__dirname, 'src/hooks'),
     }
+  },
+  build: {
+    rollupOptions:{
+      output: {
+        manualChunks: {
+          mui: ['@mui/material', '@mui/icons-material']
+        }
+      }
+    }
   }
 })
