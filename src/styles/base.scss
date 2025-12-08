@@ -1,0 +1,47 @@
+// src/styles/base.scss
+// 重置样式（补充MUI的CssBaseline）
+@use './variables.scss' as *;
+@use "@/styles/breakpoints.scss" as *;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "PingFang SC", Roboto, sans-serif;
+  background-color: $bg-color;
+  color: $text-main;
+}
+
+// 通用类（多端复用）
+.container {
+  width: 100%;
+  padding: 0 $spacing-sm;
+
+  @include desktop {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 $spacing-md;
+  }
+}
+
+// 隐藏类（小屏/大屏切换）
+.hide-on-mobile {
+  @include mobile {
+    display: none !important;
+  }
+}
+
+.hide-on-desktop {
+  @include desktop {
+    display: none !important;
+  }
+}
+
+// 管理端专属隐藏（仅大屏显示）
+.admin-only {
+  @include mobile {
+    display: none !important;
+  }
+}

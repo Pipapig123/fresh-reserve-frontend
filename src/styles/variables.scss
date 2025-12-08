@@ -1,0 +1,28 @@
+$primary-color: #4CAF50; // 薄荷绿（生鲜主色） 92cc9a
+$secondary-color: #FF9800; // 暖橙（辅助色）
+$text-main: #333;
+$text-light: #666;
+$bg-color: #F5F5F5; // 背景颜色
+$shadow-color: #ccc; // 阴影颜色
+
+// 2. 间距变量（8px栅格系统）
+$spacing-xs: 8px;
+$spacing-sm: 16px;
+$spacing-md: 24px;
+$spacing-lg: 32px;
+
+// 3. 字体变量
+$font-size-xs: 12px;
+$font-size-sm: 14px;
+$font-size-md: 16px;
+$font-size-lg: 18px;
+
+// 4. 多端专属变量（区分用户/商家/管理端）
+$admin-sidebar-width: 200px; // 管理端侧边栏宽度
+$mobile-tabbar-height: 56px; // 移动端底部Tab栏高度
+
+:export {
+  primaryColor: $primary-color; // 注意：变量名用驼峰（TSX 中方便使用）
+  secondaryColor: $secondary-color;
+  shadowColor: $shadow-color;
+}

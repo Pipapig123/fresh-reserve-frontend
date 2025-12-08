@@ -1,0 +1,35 @@
+@use "@/styles/variables.scss" as *;
+@use "@/styles/breakpoints.scss" as *;
+
+.mobile-layout {
+  width: 100vw;
+  height: 100vh;
+  color: $primary-color;
+}
+
+// 2. PC用户/商家端布局（大屏）
+.pc-user-layout {
+  width: 100vw;
+  height: 100vh;
+}
+
+// 3. PC管理端布局（仅大屏）
+.pc-admin-layout {
+  @include admin {
+    display: flex;
+    height: 100vh;
+
+    .admin-sidebar {
+      width: $admin-sidebar-width;
+      background: #fff;
+      border-right: 1px solid #eee;
+      padding: $spacing-md;
+    }
+
+    .admin-content {
+      flex: 1;
+      padding: $spacing-md;
+      overflow-y: auto;
+    }
+  }
+}

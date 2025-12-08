@@ -1,7 +1,6 @@
 import { Outlet } from "react-router";
-
 const PCLayout = () => {
-  return <div>
+  return <div className='pc-user-layout'>
     PC
     <Outlet/>
   </div>

@@ -1,0 +1,44 @@
+@use "sass:map";
+
+$breakpoints: (
+        xs: 0px,
+        sm: 600px,
+        md: 768px,
+        lg: 900px,
+        xl: 1200px,
+);
+
+// 大屏混合宏（≥768px，用户/商家端大屏+管理端）
+@mixin desktop {
+  @media (min-width: map.get($breakpoints, md)) {
+    @content;
+  }
+}
+
+// 小屏混合宏（<768px，仅用户/商家端）
+@mixin mobile {
+  @media (max-width: map.get($breakpoints, md) - 1px) {
+    @content;
+  }
+}
+
+// 管理端专属混合宏（≥768px，仅管理端）
+@mixin admin {
+  @media (min-width: map.get($breakpoints, md)) {
+    @content;
+  }
+}
+
+// 响应式列数混合宏（适配商品列表：小屏2列，大屏4列）
+@mixin goods-columns {
+  display: grid;
+  gap: $spacing-sm;
+
+  @include mobile {
+    grid-template-columns: repeat(2, 1fr); // 小屏2列
+  }
+
+  @include desktop {
+    grid-template-columns: repeat(4, 1fr); // 大屏4列
+  }
+}
