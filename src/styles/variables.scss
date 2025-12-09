@@ -1,4 +1,4 @@
-$primary-color: #4CAF50; // 薄荷绿（生鲜主色） 92cc9a
+$primary-color: #92cc9a; // 薄荷绿（生鲜主色） 4CAF50FF
 $secondary-color: #FF9800; // 暖橙（辅助色）
 $text-main: #333;
 $text-light: #666;
@@ -20,9 +20,3 @@ $font-size-lg: 18px;
 // 4. 多端专属变量（区分用户/商家/管理端）
 $admin-sidebar-width: 200px; // 管理端侧边栏宽度
 $mobile-tabbar-height: 56px; // 移动端底部Tab栏高度
-
-:export {
-  primaryColor: $primary-color; // 注意：变量名用驼峰（TSX 中方便使用）
-  secondaryColor: $secondary-color;
-  shadowColor: $shadow-color;
-}

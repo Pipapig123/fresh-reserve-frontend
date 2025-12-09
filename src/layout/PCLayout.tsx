@@ -1,8 +1,11 @@
 import { Outlet } from "react-router";
+import { ThemeProvider } from '@mui/material/styles';
+import theme from '@/common/theme.ts'
+
 const PCLayout = () => {
-  return <div className='pc-user-layout'>
-    PC
+  return  <ThemeProvider theme={theme}>
+    <div>pc</div>
     <Outlet/>
-  </div>
+  </ThemeProvider>
 }
 export default PCLayout;

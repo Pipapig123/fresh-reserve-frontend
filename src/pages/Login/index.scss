@@ -1,27 +1,30 @@
-@use "@/styles/variables.scss" as *; // 若用到变量则加，没用可省略
 @use "@/styles/breakpoints.scss" as *; // 关键：导入定义mobile的breakpoints
+@use "@/styles/variables.scss" as *; // 若用到变量则加，没用可省略
 
 .login-container {
   width: 100vw;
   height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  .login-formBox {
-    box-shadow: $shadow-color 6px 5px 5px !important;
-    @include mobile {
-      width: 200px;
-      height: 500px;
-      span {
-        color: red;
-      }
+  position: relative;
+  @include mobile {
+    height: 100svh;
+    background-color: #fff;
+    :root {
+      --rv-typography-color: $secondary-color !important;
     }
+  }
+  .pcLogin-formBox {
+    background-color: #fff;
+    box-shadow: $shadow-color 6px 5px 5px !important;
     @include desktop {
-      width: 50vw;
+      width: 30vw;
       height: 60vh;
       span {
-        color:  #FF9800;
+        //color:  #FF9800;
       }
+      position: absolute;
+      left: 25%;
+      top: 50%;
+      transform: translate(-50%, -50%);
     }
     .login-tabs {
       display: flex;

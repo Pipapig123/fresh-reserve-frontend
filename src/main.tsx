@@ -7,6 +7,7 @@ import {
 import './index.css'
 import App from './App.tsx'
 import Login from "@/pages/Login";
+import 'react-vant/lib/index.css';
 
 const router = createBrowserRouter([
   {
