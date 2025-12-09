@@ -17,10 +17,16 @@
       }
     }
     @include desktop {
-      width: 600px;
-      height: 400px;
+      width: 50vw;
+      height: 60vh;
       span {
         color:  #FF9800;
+      }
+    }
+    .login-tabs {
+      display: flex;
+      .login-tabs-item {
+        flex: 1;
       }
     }
   }
