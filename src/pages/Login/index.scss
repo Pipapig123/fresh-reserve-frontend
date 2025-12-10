@@ -53,6 +53,32 @@
       left: 25%;
       top: 50%;
       transform: translate(-50%, -50%);
+      .account,.pwd {
+        width: 100%;
+      }
+      .MuiInput-root,.MuiInput-input {
+        width: 100%;
+      }
+      .MuiFormLabel-root {
+        font-size: 12px;
+      }
+      .loginBtn {
+        width: 100%;
+        box-shadow: $shadow-color 6px 5px 5px;
+        transition: all 0.2s linear;
+        &:hover {
+          transform: translateX(-2px) translateY(2px);
+          box-shadow: $shadow-color 3px 2px 2px;
+        }
+        //transform: translateX(32px);
+      }
+      .check {
+        --rv-checkbox-size: 12px;
+        font-size: 12px;
+        .agreement {
+          color: #{$primary-color};
+        }
+      }
     }
     .login-tabs {
       display: flex;

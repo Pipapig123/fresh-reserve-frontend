@@ -16,7 +16,8 @@ export default defineConfig({
     rollupOptions:{
       output: {
         manualChunks: {
-          mui: ['@mui/material', '@mui/icons-material']
+          mui: ['@mui/material', '@mui/icons-material'],
+
         }
       }
     }

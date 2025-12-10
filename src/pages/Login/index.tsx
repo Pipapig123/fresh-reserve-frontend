@@ -2,20 +2,30 @@ import * as React from "react";
 import { useState, Fragment } from "react";
 import useDevice from "hooks/useDevice.ts";
 import { ThemeProvider } from '@mui/material/styles';
-import {Paper, Tabs , Tab, Box} from '@mui/material';
+import {Paper, Tabs, Tab, Box, TextField, Button as MuiButtton   } from '@mui/material';
+import {PersonOutline, LockOpen } from '@mui/icons-material';
 import {Input , Typography, hooks, Button, Checkbox } from 'react-vant';
 import theme from '@/common/theme.ts'
 import './index.scss'
 
+type LoginType = 'merchant' | 'admin' | 'user'
 interface TabPanelProps {
   children?: React.ReactNode
   index: number
   value: number
 }
-
+interface LoginForm {
+  account: string | undefined
+  password: string | undefined
+}
+interface PanelContentProps {
+  form: LoginForm
+  setForm: React.Dispatch<React.SetStateAction<LoginForm>>
+  login: (loginType: LoginType) => void
+  loginType: LoginType
+}
 const CustomTabPanel = (props: TabPanelProps)=> {
   const { children, value, index, ...other } = props;
-  
   return (
     <div
       role="tabpanel"
@@ -24,18 +34,64 @@ const CustomTabPanel = (props: TabPanelProps)=> {
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
-      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
+      {value === index && <Box sx={{ p: 3, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>{children}</Box>}
     </div>
   );
 }
-
+const PanelContent = (props: PanelContentProps) => {
+  const { form, setForm, login, loginType } = props
+  const [isChecked, setIsChecked] = useState<boolean>(false)
+  return (
+    <Fragment>
+      <Box sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'flex-end', width: '80%', my: 2 }}>
+        <PersonOutline sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
+        <TextField
+          id="input-account"
+          type='tel'
+          label="请输入账号"
+          variant="standard"
+          size='small'
+          value={form.account}
+          onChange={(e) => setForm({...form, account: e.currentTarget.value})}
+          classes={{root: 'account'}}/>
+      </Box>
+      <Box sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'flex-end', width: '80%', my: 2 }}>
+        <LockOpen sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
+        <TextField id="input-pwd"
+                   type='password'
+                   label="请输入密码"
+                   variant="standard"
+                   size='small'
+                   classes={{root: 'pwd'}} value={form.password}
+                   onChange={(e) => setForm({...form, password: e.currentTarget.value})} />
+      </Box>
+      <Box  sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'flex-end',width: '80%', my: 2   }}>
+        <MuiButtton onClick={() => login(loginType)} color='primary' variant='contained' classes={{root: 'loginBtn'}} disabled={!isChecked}>登录</MuiButtton>
+      </Box>
+      <Box sx={{ display: 'flex',justifyContent: 'flex-end', alignItems: 'flex-end',width: '80%'}}>
+        <Checkbox checked={isChecked} onChange={(e) => setIsChecked(e)} className='check' checkedColor={theme.palette.primary.main} shape='square'>
+          我已阅读并同意 <span className='agreement'>《鲜到家用户协议》</span> 和 <span className='agreement'>《隐私政策》</span>
+        </Checkbox>
+      </Box>
+    </Fragment>
+  )
+}
 const Login = () => {
   const [value, setValue] = useState(0);
-  const [state, updateState] = hooks.useSetState({account: '', pwd: ''})
+  const [state, updateState] = hooks.useSetState({account: undefined, pwd: undefined})
+  const [form, setForm] = useState<LoginForm>({account: '', password: ''})
   const [checked, setChecked] = React.useState(false)
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue);
+    setValue(newValue)
+    setForm({
+      account: undefined,
+      password: undefined
+    })
   };
+  const login = (loginType: LoginTypeo) => {
+    console.log(form, 'form')
+    console.log(loginType, 'loginType')
+  }
   const { isMobile } = useDevice()
   const a11yProps = (index: number) => {
     return {
@@ -85,10 +141,10 @@ const Login = () => {
                     </Tabs>
                     <Box>
                       <CustomTabPanel value={value} index={0}>
-                        Item One
+                        <PanelContent form={form} setForm={setForm} login={login} loginType='merchant'/>
                       </CustomTabPanel>
                       <CustomTabPanel value={value} index={1}>
-                        Item Two
+                        <PanelContent form={form} setForm={setForm} login={login} loginType='admin'/>
                       </CustomTabPanel>
                     </Box>
                   </Paper>
