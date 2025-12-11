@@ -1,14 +1,14 @@
 import * as React from "react";
-import { useState, Fragment } from "react";
+import {useState, Fragment, useEffect, useLayoutEffect} from "react";
 import useDevice from "hooks/useDevice.ts";
 import { ThemeProvider } from '@mui/material/styles';
 import {Paper, Tabs, Tab, Box, TextField, Button as MuiButtton   } from '@mui/material';
 import {PersonOutline, LockOpen } from '@mui/icons-material';
-import {Input , Typography, hooks, Button, Checkbox } from 'react-vant';
+import {Input , Typography, Button, Checkbox } from 'react-vant';
 import theme from '@/common/theme.ts'
 import './index.scss'
 
-type LoginType = 'merchant' | 'admin' | 'user'
+type LoginType = 0 | 1 | 2
 interface TabPanelProps {
   children?: React.ReactNode
   index: number
@@ -21,8 +21,7 @@ interface LoginForm {
 interface PanelContentProps {
   form: LoginForm
   setForm: React.Dispatch<React.SetStateAction<LoginForm>>
-  login: (loginType: LoginType) => void
-  loginType: LoginType
+  login: () => void
 }
 const CustomTabPanel = (props: TabPanelProps)=> {
   const { children, value, index, ...other } = props;
@@ -39,7 +38,7 @@ const CustomTabPanel = (props: TabPanelProps)=> {
   );
 }
 const PanelContent = (props: PanelContentProps) => {
-  const { form, setForm, login, loginType } = props
+  const { form, setForm, login } = props
   const [isChecked, setIsChecked] = useState<boolean>(false)
   return (
     <Fragment>
@@ -66,7 +65,7 @@ const PanelContent = (props: PanelContentProps) => {
                    onChange={(e) => setForm({...form, password: e.currentTarget.value})} />
       </Box>
       <Box  sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'flex-end',width: '80%', my: 2   }}>
-        <MuiButtton onClick={() => login(loginType)} color='primary' variant='contained' classes={{root: 'loginBtn'}} disabled={!isChecked}>登录</MuiButtton>
+        <MuiButtton onClick={login} color='primary' variant='contained' classes={{root: 'loginBtn'}} disabled={!isChecked}>登录</MuiButtton>
       </Box>
       <Box sx={{ display: 'flex',justifyContent: 'flex-end', alignItems: 'flex-end',width: '80%'}}>
         <Checkbox checked={isChecked} onChange={(e) => setIsChecked(e)} className='check' checkedColor={theme.palette.primary.main} shape='square'>
@@ -77,22 +76,30 @@ const PanelContent = (props: PanelContentProps) => {
   )
 }
 const Login = () => {
-  const [value, setValue] = useState(0);
-  const [state, updateState] = hooks.useSetState({account: undefined, pwd: undefined})
+  const { isMobile } = useDevice()
+  const [value, setValue] = useState<LoginType>(0);
   const [form, setForm] = useState<LoginForm>({account: '', password: ''})
   const [checked, setChecked] = React.useState(false)
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+  
+  useLayoutEffect(() => {
+    if (isMobile) {
+      requestAnimationFrame(() => {
+        setValue(2)
+      })
+    }
+  }, [isMobile]);
+  
+  const handleChange = (event: React.SyntheticEvent, newValue: LoginType) => {
     setValue(newValue)
     setForm({
       account: undefined,
       password: undefined
     })
   };
-  const login = (loginType: LoginTypeo) => {
+  const login = () => {
     console.log(form, 'form')
-    console.log(loginType, 'loginType')
+    console.log(value, isMobile, 'value')
   }
-  const { isMobile } = useDevice()
   const a11yProps = (index: number) => {
     return {
       id: `simple-tab-${index}`,
@@ -106,21 +113,21 @@ const Login = () => {
                 <Fragment>
                 <Typography.Title level={2} className='title'>欢迎登录鲜到家</Typography.Title>
                   <Input
-                    value={state.account}
-                    onChange={account => updateState({ account })}
+                    value={form.account}
+                    onChange={account => setForm({ ...form, account: account })}
                     placeholder='请输入账号'
                     clearable
                     className='account'
                   />
                   <Input
                     type='password'
-                    value={state.pwd}
-                    onChange={pwd => updateState({ pwd })}
+                    value={form.password}
+                    onChange={pwd => setForm({ ...form, password: pwd })}
                     placeholder='请输入密码'
                     clearable
                     className='pwd'
                   />
-                  <Button round type='info' className='submit'>
+                  <Button round type='info' className='submit' onClick={login} disabled={!checked}>
                     登录
                   </Button>
                   <Box className='review'>
@@ -141,10 +148,10 @@ const Login = () => {
                     </Tabs>
                     <Box>
                       <CustomTabPanel value={value} index={0}>
-                        <PanelContent form={form} setForm={setForm} login={login} loginType='merchant'/>
+                        <PanelContent form={form} setForm={setForm} login={login}/>
                       </CustomTabPanel>
                       <CustomTabPanel value={value} index={1}>
-                        <PanelContent form={form} setForm={setForm} login={login} loginType='admin'/>
+                        <PanelContent form={form} setForm={setForm} login={login}/>
                       </CustomTabPanel>
                     </Box>
                   </Paper>
