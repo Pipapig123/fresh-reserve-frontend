@@ -1,39 +1,41 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import {
-    createBrowserRouter,
-    RouterProvider,
-} from "react-router";
-import './index.css'
-import App from './App.tsx'
-import Login from "@/pages/Login";
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import { createBrowserRouter, RouterProvider } from 'react-router';
+import './index.css';
+import App from './App.tsx';
+import Login from '@/pages/Login';
+import Register from '@/pages/Register';
 import 'react-vant/lib/index.css';
 
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: <App/>,
+    path: '/',
+    element: <App />,
   },
   {
-    path: "/user",
-    element: <App/>,
+    path: '/user',
+    element: <App />,
   },
   {
-    path: "/merchant",
-    element: <App/>,
+    path: '/merchant',
+    element: <App />,
   },
   {
-    path: "/admin",
-    element: <App/>,
+    path: '/admin',
+    element: <App />,
   },
   {
-    path: "/login",
+    path: '/login',
     element: <Login />,
-  }
+  },
+  {
+    path: '/register',
+    element: <Register />,
+  },
 ]);
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-      <RouterProvider router={router} />
+    <RouterProvider router={router} />
   </StrictMode>,
-)
+);

@@ -1,7 +1,8 @@
 @use "@/styles/breakpoints.scss" as *;
 @use "@/styles/variables.scss" as *;
 
-.login-container {
+.login-container,
+.register-container {
   width: 100vw;
   height: 100vh;
   position: relative;
@@ -9,12 +10,12 @@
     height: 100svh;
     background-color: #fff;
     --rv-typography-color: #{$primary-color} !important;
-    .title,.account,.pwd, .submit,.review  {
+    .title, .account, .pwd, .submit, .review {
       position: absolute;
       left: 10%;
       top: 20%;
     }
-    .account,.pwd, .submit {
+    .account, .pwd, .submit {
       width: 80%;
       height: 40px;
       border: 1px solid #{$primary-color};
@@ -31,16 +32,20 @@
     }
     .review {
       top: 52%;
+
       .check {
         --rv-checkbox-size: 14px !important;
         font-size: 12px;
+
         .agreement {
           color: #{$primary-color};
         }
       }
     }
   }
-  .pcLogin-formBox {
+
+  .pcLogin-formBox,
+  .pcRegister-formBox {
     background-color: #fff;
     box-shadow: $shadow-color 6px 5px 5px !important;
     @include desktop {
@@ -53,36 +58,47 @@
       left: 25%;
       top: 50%;
       transform: translate(-50%, -50%);
-      .account,.pwd {
+      .account, .pwd {
         width: 100%;
       }
-      .MuiInput-root,.MuiInput-input {
+      .MuiInput-root, .MuiInput-input {
         width: 100%;
       }
       .MuiFormLabel-root {
         font-size: 12px;
       }
-      .loginBtn {
+      .loginBtn,
+      .registerBtn {
         width: 100%;
         box-shadow: $shadow-color 6px 5px 5px;
         transition: all 0.2s linear;
+
         &:hover {
           transform: translateX(-2px) translateY(2px);
           box-shadow: $shadow-color 3px 2px 2px;
         }
-        //transform: translateX(32px);
       }
       .check {
         --rv-checkbox-size: 12px;
         font-size: 12px;
+
         .agreement {
           color: #{$primary-color};
         }
       }
+      .toRegister {
+        cursor: pointer;
+        font-size: 12px;
+        color: #{$primary-color};
+      }
     }
-    .login-tabs {
+
+    .login-tabs,
+    .register-tabs {
       display: flex;
-      .login-tabs-item {
+
+      .login-tabs-item,
+      .register-tabs-item {
         flex: 1;
       }
     }

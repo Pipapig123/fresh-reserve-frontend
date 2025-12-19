@@ -1,16 +1,17 @@
 import * as React from 'react';
-import { Fragment, useState } from 'react';
+import { Fragment, useLayoutEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
+import useDevice from 'hooks/useDevice.ts';
 import { ThemeProvider } from '@mui/material/styles';
-import { Box, Button as MuiButton, Paper, Snackbar, Tab, Tabs, TextField } from '@mui/material';
+import { Box, Button as MuiButtton, Paper, Snackbar, Tab, Tabs, TextField } from '@mui/material';
 import type { SnackbarCloseReason } from '@mui/material/Snackbar';
 import { LockOpen, PersonOutline } from '@mui/icons-material';
 import { Checkbox } from 'react-vant';
 import theme from '@/common/theme.ts';
-import './index.scss';
-import { login } from '@/api/auth.ts';
+import '../Login/index.scss';
+import { register } from '@/api/auth.ts';
 
-type LoginType = 0 | 1 | 2
+type RegisterType = 0 | 1 | 2
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -18,15 +19,15 @@ interface TabPanelProps {
   value: number;
 }
 
-interface LoginForm {
+interface RegisterForm {
   account: string | undefined;
   password: string | undefined;
 }
 
 interface PanelContentProps {
-  form: LoginForm;
-  setForm: React.Dispatch<React.SetStateAction<LoginForm>>;
-  login: () => void;
+  form: RegisterForm;
+  setForm: React.Dispatch<React.SetStateAction<RegisterForm>>;
+  register: () => void;
 }
 
 const CustomTabPanel = (props: TabPanelProps) => {
@@ -45,11 +46,11 @@ const CustomTabPanel = (props: TabPanelProps) => {
   );
 };
 const PanelContent = (props: PanelContentProps) => {
-  const { form, setForm, login } = props;
+  const { form, setForm, register } = props;
   const [isChecked, setIsChecked] = useState<boolean>(false);
   const navigate = useNavigate();
-  const toRegister = () => {
-    navigate('/register');
+  const toLogin = () => {
+    navigate('/login');
   };
   return (
     <Fragment>
@@ -76,8 +77,8 @@ const PanelContent = (props: PanelContentProps) => {
                    onChange={(e) => setForm({ ...form, password: e.currentTarget.value })} />
       </Box>
       <Box sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'flex-end', width: '80%', my: 2 }}>
-        <MuiButton onClick={login} color="primary" variant="contained" classes={{ root: 'loginBtn' }}
-                   disabled={!isChecked}>登录</MuiButton>
+        <MuiButtton onClick={register} color="primary" variant="contained" classes={{ root: 'registerBtn' }}
+                    disabled={!isChecked}>注册</MuiButtton>
       </Box>
       <Box
         sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'flex-end', width: '80%' }}>
@@ -88,14 +89,15 @@ const PanelContent = (props: PanelContentProps) => {
         </Checkbox>
       </Box>
       <Box sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'flex-end', width: '80%', mt: 2 }}>
-        <p className="toRegister" onClick={toRegister}>没有账号？去注册</p>
+        <p className="toRegister" onClick={toLogin}>已有账号？去登录</p>
       </Box>
     </Fragment>
   );
 };
-const Login = () => {
-  const [value, setValue] = useState<LoginType>(0);
-  const [form, setForm] = useState<LoginForm>({ account: '', password: '' });
+const Register = () => {
+  const { isMobile } = useDevice();
+  const [value, setValue] = useState<RegisterType>(0);
+  const [form, setForm] = useState<RegisterForm>({ account: '', password: '' });
   const [open, setOpen] = React.useState(false);
   const [snackMessage, setSnackMessage] = useState<string>('');
   const handleClick = () => {
@@ -112,14 +114,22 @@ const Login = () => {
     setOpen(false);
   };
   
-  const handleChange = (event: React.SyntheticEvent, newValue: LoginType) => {
+  useLayoutEffect(() => {
+    if (isMobile) {
+      requestAnimationFrame(() => {
+        setValue(2);
+      });
+    }
+  }, [isMobile]);
+  
+  const handleChange = (event: React.SyntheticEvent, newValue: RegisterType) => {
     setValue(newValue);
     setForm({
       account: undefined,
       password: undefined,
     });
   };
-  const toLogin = async () => {
+  const toRegister = async () => {
     if (!form.password) {
       setSnackMessage('请输入密码');
       handleClick();
@@ -128,13 +138,13 @@ const Login = () => {
       setSnackMessage('请输入账号');
       handleClick();
     }
-    const { code, data, message } = await login({ ...form, role: value });
+    const { code, data, message } = await register({ ...form, role: value });
     if (code === 200) {
       setOpen(true);
-      setSnackMessage('登录成功！');
+      setSnackMessage('注册成功！');
       console.log(data, 'data---');
       localStorage.setItem('token', data.token);
-      navigate('/');
+      navigate('/login');
     } else {
       setOpen(true);
       setSnackMessage(message);
@@ -147,22 +157,22 @@ const Login = () => {
     };
   };
   return (
-    <div className="login-container">
+    <div className="register-container">
       <ThemeProvider theme={theme}>
-        <Paper square={false} classes={{ root: 'pcLogin-formBox' }}>
+        <Paper square={false} classes={{ root: 'pcRegister-formBox' }}>
           <Tabs value={value}
                 onChange={handleChange}
                 textColor={'primary'}
-                classes={{ root: 'login-tabs' }}>
-            <Tab label="商家身份登录" {...a11yProps(0)} classes={{ root: 'login-tabs-item' }} />
-            <Tab label="管理身份登录" {...a11yProps(1)} classes={{ root: 'login-tabs-item' }} />
+                classes={{ root: 'register-tabs' }}>
+            <Tab label="商家身份注册" {...a11yProps(0)} classes={{ root: 'register-tabs-item' }} />
+            <Tab label="管理身份注册" {...a11yProps(1)} classes={{ root: 'register-tabs-item' }} />
           </Tabs>
           <Box>
             <CustomTabPanel value={value} index={0}>
-              <PanelContent form={form} setForm={setForm} login={toLogin} />
+              <PanelContent form={form} setForm={setForm} register={toRegister} />
             </CustomTabPanel>
             <CustomTabPanel value={value} index={1}>
-              <PanelContent form={form} setForm={setForm} login={toLogin} />
+              <PanelContent form={form} setForm={setForm} register={toRegister} />
             </CustomTabPanel>
           </Box>
         </Paper>
@@ -178,4 +188,4 @@ const Login = () => {
     </div>
   );
 };
-export default Login;
+export default Register;
